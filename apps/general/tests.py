@@ -4,6 +4,7 @@ from .models import Municipio
 from .models import Especie
 from .models import EspecieMunicipio
 from .models import Robot
+from .models import TipoPatron
 
 # Create your tests here.
 class MunicipioTests(TestCase):
@@ -57,6 +58,25 @@ class RobotTests(TestCase):
             print(robot.gps)
             print(robot.modelo)
             print(robot.estado)
+        else:
+            print("No Existe")
+          
+class TipoPatronTests(TestCase):
+
+    def setUp(self):
+        print("Prueba Unitaria TipoPatron")
+        if (TipoPatron.objects.create(nombre='t1',figura  = "Triangulo", distancia_interna =200)):
+            print("Exitoso")
+        else:
+            print("No Exitoso")
+
+    def test_text_content(self):
+        tipoPatron = TipoPatron.objects.get(id=1)
+        if(robot):      
+            print(tipoPatron.nombre)
+            print(tipoPatron.figura)
+            print(tipoPatron.distancia_interna)
+            
         else:
             print("No Existe")
 
