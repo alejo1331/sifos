@@ -95,8 +95,8 @@ var editarTerreno = function () {
             if (this.poligono != null) {
                 area = google.maps.geometry.spherical.computeArea(this.poligono.getPath());
                 perimetro = google.maps.geometry.spherical.computeLength(this.poligono.getPath());
-                $("#areaPoligonoLbl").html(" " + area.toFixed() + " metros cuadrados (?)");
-                $("#perimetroPoligonoLbl").html(" " + perimetro.toFixed() + " metros cuadrados (?)");
+                $("#areaPoligonoLbl").html(" " + area.toFixed() + " metros cuadrados");
+                $("#perimetroPoligonoLbl").html(" " + perimetro.toFixed() + " metros");
             }
         },
         registrarPoligono: function (municipio) {
