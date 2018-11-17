@@ -109,7 +109,7 @@ var registrarTerreno = function () {
                 },
                 dataType: 'json',
                 success: function (data) {
-                    if (data.error == 'no') {
+                    if (data.error == 'si') {
                         swal({
                             type: 'error',
                             title: 'Error...',

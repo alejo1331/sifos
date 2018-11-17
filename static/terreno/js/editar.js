@@ -6,38 +6,34 @@ var editarTerreno = function () {
         area: "",
         perimetro: "",
 
-        init: function (datos) {
+        init: function () {
             this.map = new google.maps.Map(document.getElementById('mapsDiv'), {
                 center: {lat: 4.1420000, lng: -73.6266400},
                 zoom: 12
             });
 
-            if (datos != undefined){
-                debugger;
+            google.maps.Polygon.prototype.my_getBounds = function () {
+                var bounds = new google.maps.LatLngBounds()
+                this.getPath().forEach(function (element, index) {
+                    bounds.extend(element)
+                })
+                return bounds
             }
+
+            var json = $("#contenedorValores").val();
+            var datosRegistro = JSON.parse(json);
+            this.dibujarPoligonoExistente(datosRegistro);            
         },
 
-        obtenerRegistroTerreno : function(){
-            var datosRegistroJson = $("#contenedorValores").val();
-
-            if (datosRegistroJson == undefined ){
-                //Retorno
-            }
-            var datosRegistro = JSON.parse(datosRegistroJson);
-            this.dibujarPoligonoExistente(datosRegistro.points);            
+        obtenerRegistroTerreno : function(nombre, perimetro, area, puntos){
+            $("#dibujarPoligonoBtn").hide();
         },
 
-        dibujarPoligonoExistente: function(puntos){            
-            // var cosa = [
-            //     {lat: 4.1444654625344475, lng: -73.65705839809158},
-            //     {lat : 4.117413428685564,lng: -73.61173979457595},
-            //     {lat: 4.152683618920593, lng: -73.60178343471267},
-            //     {lat: 4.168246057291261, lng: -73.64675871547439}
-            // ];
+        dibujarPoligonoExistente: function(puntos){                        
             this.poligono = new google.maps.Polygon({
                 paths: puntos
             });
-            nuevoPoligono.setMap(editarTerreno.map);
+            this.poligono.setMap(editarTerreno.map);
         },
 
         dibujarPoligono: function () {
@@ -47,7 +43,7 @@ var editarTerreno = function () {
             }
             $("#borrarPoligonoBtn").show();
             $("#dibujarPoligonoBtn").hide();
-            registrarTerreno.gestorDibujo = new google.maps.drawing.DrawingManager({
+            editarTerreno.gestorDibujo = new google.maps.drawing.DrawingManager({
                 drawingMode: google.maps.drawing.OverlayType.POLYGON,
                 drawingControl: true,
                 drawingControlOptions: {
@@ -64,27 +60,19 @@ var editarTerreno = function () {
                 }
             });
 
-            google.maps.Polygon.prototype.my_getBounds = function () {
-                var bounds = new google.maps.LatLngBounds()
-                this.getPath().forEach(function (element, index) {
-                    bounds.extend(element)
-                })
-                return bounds
-            }
+            google.maps.event.addListener(editarTerreno.gestorDibujo, 'polygoncomplete', function (poligono) {
+                editarTerreno.poligono = poligono;
 
-            google.maps.event.addListener(registrarTerreno.gestorDibujo, 'polygoncomplete', function (poligono) {
-                registrarTerreno.poligono = poligono;
+                editarTerreno.dibujarElementosPoligono();
 
-                registrarTerreno.dibujarElementosPoligono();
-
-                registrarTerreno.gestorDibujo.setOptions({
+                editarTerreno.gestorDibujo.setOptions({
                     drawingControl: false
                 });
-                registrarTerreno.gestorDibujo.setDrawingMode(null);
+                editarTerreno.gestorDibujo.setDrawingMode(null);
 
             });
 
-            registrarTerreno.gestorDibujo.setMap(this.map);
+            editarTerreno.gestorDibujo.setMap(this.map);
 
 
         },
@@ -110,7 +98,7 @@ var editarTerreno = function () {
             }
         },
         registrarPoligono: function (municipio) {
-            var puntos = registrarTerreno.poligono.getPath().getArray()
+            var puntos = editarTerreno.poligono.getPath().getArray()
             var coord = [];
             for (var i = 0; i < puntos.length; i++) {
                 coord.push([puntos[i].lat(), puntos[i].lng()])
@@ -178,7 +166,7 @@ var editarTerreno = function () {
                         for (var i = 0; i < results.length; i++) {
                             if ($.inArray('locality', results[i].types) != -1 || $.inArray('administrative_area_level_2', results[i].types) != -1) {
                                 var municipio = results[i].formatted_address.split(",")[0];
-                                registrarTerreno.registrarPoligono(municipio);
+                                editarTerreno.registrarPoligono(municipio);
                                 return;
                             }
                         }
