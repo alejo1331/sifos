@@ -21,7 +21,7 @@ class PoligonoTests(TestCase):
         poligono = Poligono.objects.get(id=1)
         print(poligono.nombre)
         print(poligono.coordenadas_puntos)
-'''    
+   
 # Create your tests here.
 class PuntoSiembraTests(TestCase):
 
@@ -53,4 +53,4 @@ class SiembraTests(TestCase):
         print(siembra.temperatura)
         print(siembra.humedad)
         print(siembra.altitud)
-'''
+
