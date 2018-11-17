@@ -17,4 +17,4 @@ before_script:
   - python manage.py migrate
 script:
 - python manage.py test 
-- python test.py
+
