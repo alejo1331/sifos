@@ -55,6 +55,15 @@ def registro(request):
     return render(request, "terreno/registrar.html", context)
 
 
+def edicion(request, terreno_id):
+    list_tipo = TipoPatron.objects.all()
+    context = {
+        "list_tipo": list_tipo
+    }
+    return render(request, "terreno/editar.html", context)
+
+
+
 def registro_poligono(request):
     data = {
         'error': "si",
