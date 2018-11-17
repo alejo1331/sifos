@@ -72,7 +72,7 @@ class TipoPatronTests(TestCase):
 
     def test_text_content(self):
         tipoPatron = TipoPatron.objects.get(id=1)
-        if(robot):      
+        if(tipoPatron):      
             print(tipoPatron.nombre)
             print(tipoPatron.figura)
             print(tipoPatron.distancia_interna)
