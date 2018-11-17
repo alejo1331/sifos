@@ -96,3 +96,27 @@ def eliminar_terreno(request):
     identificador.delete()
     response = {}
     return JsonResponse(response)
+
+def updpoligono(request):
+    data = {
+        'error': "si",
+        'message': "Success."
+    }
+    try:
+        m = Municipio.objects.get(nombre=request.POST.get('municipio', None))
+        obj= Poligono.objects.get(d=request.POST.get('id', None))
+        obj.nombre=request.POST.get('name', None)
+        obj.coordenadas_puntos=request.POST.get('points', None)
+        obj.area=request.POST.get('area', None)
+        obj.perimetro=request.POST.get('perimeter', None)
+        obj.tipo_patron_id=request.POST.get('siembra', None)
+        obj.usuario=request.user
+        obj.municipio_id=m.id
+        obj.save()
+    except Exception as e:
+        data1 = {
+            'error': "no",
+            'message': "Error."
+        }
+
+    return JsonResponse(data)
