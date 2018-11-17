@@ -39,5 +39,23 @@ class EspecieTests(TestCase):
             print(especie.porcentaje_carbono)
         else:
             print("No Existe")
+            
+class RobotTests(TestCase):
 
+    def setUp(self):
+        print("Prueba Unitaria Robot")
+        if (Robot.objects.create(nombre='Walle',gps  = "Prueba GPS", modelo="2016", estado="Bueno")):
+            print("Exitoso")
+        else:
+            print("No Exitoso")
+
+    def test_text_content(self):
+        robot = Robot.objects.get(id=1)
+        if(robot):      
+            print(robot.nombre)
+            print(robot.gps)
+            print(robot.modelo)
+            print(robot.estado)
+        else:
+            print("No Existe")
 
