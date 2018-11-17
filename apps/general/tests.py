@@ -5,7 +5,7 @@ from .models import Especie
 from .models import EspecieMunicipio
 from .models import Robot
 from .models import TipoPatron
-
+import unittest
 # Create your tests here.
 class MunicipioTests(TestCase):
 
@@ -21,6 +21,12 @@ class MunicipioTests(TestCase):
         print(municipio.nombre)
         print(municipio.longitd)
         print(municipio.latitud)
+        
+    def comp_text(self):
+        a= 'Villavicencio'
+        b= 'VILLAVICENCIO'
+        self.assertEqual(municipio.nombre,a)
+        self.assertEqual(municipio.nombre.upper(),b)
         
         
 class EspecieTests(TestCase):
