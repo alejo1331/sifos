@@ -86,7 +86,7 @@ var registrarTerreno = function () {
             var puntos = registrarTerreno.poligono.getPath().getArray()
             var coord = [];
             for (var i = 0; i < puntos.length; i++) {
-                coord.push([puntos[i].lat(), puntos[i].lng()])
+                coord.push({lat: puntos[i].lat(), lng: puntos[i].lng()})
             }
             if (this.poligono == null) {
                 this.generarMensajeBasico("warning", "Selección de polígono", "Debe seleccionar un polígono");                                                
@@ -109,7 +109,7 @@ var registrarTerreno = function () {
                 },
                 dataType: 'json',
                 success: function (data) {
-                    if (data.error == 'no') {
+                    if (data.error == 'si') {
                         swal({
                             type: 'error',
                             title: 'Error...',

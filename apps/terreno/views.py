@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
@@ -5,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from apps.terreno.models import Poligono
 from apps.general.models import Municipio, TipoPatron
 
+import json
 
 def index(request):
     obj = Poligono.objects.filter(usuario=request.user)
@@ -58,12 +60,16 @@ def registro(request):
 def edicion(request, terreno_id):
     list_tipo = TipoPatron.objects.all()
     det_terreno = Poligono.objects.get(id=terreno_id)
+
+    jsonData = json.loads(det_terreno.coordenadas_puntos)
+    puntos = json.dumps(jsonData).replace("\'","\"")
+
     context = {
         "list_tipo": list_tipo,
         "nombre": det_terreno.nombre,
         "area": det_terreno.area,
         "perimetro": det_terreno.perimetro,
-        "puntos": det_terreno.coordenadas_puntos
+        "puntos": puntos
 
     }
     return render(request, "terreno/editar.html", context)
@@ -72,7 +78,7 @@ def edicion(request, terreno_id):
 
 def registro_poligono(request):
     data = {
-        'error': "si",
+        'error': "no",
         'message': "Success."
     }
     try:
@@ -84,7 +90,7 @@ def registro_poligono(request):
         p.save()
     except Exception as e:
         data = {
-            'error': "no",
+            'error': "si",
             'message': "Error."
         }
     return JsonResponse(data)
