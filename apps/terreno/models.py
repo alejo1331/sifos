@@ -10,7 +10,7 @@ from django.db.models import Model, CASCADE
 class Poligono(models.Model):
     fecha = models.DateTimeField(default=timezone.now)
     nombre = models.CharField(max_length=200, blank=True, null=True)
-    coordenadas_puntos = models.CharField(max_length=200, blank=True, null=True)
+    coordenadas_puntos = models.CharField(max_length=5000, blank=True, null=True)
     area = models.FloatField(max_length=100, blank=True, null=True)
     perimetro = models.FloatField(max_length=100, blank=True, null=True)
     tipo_patron = models.ForeignKey(TipoPatron, blank=False, null=False, on_delete=CASCADE)
