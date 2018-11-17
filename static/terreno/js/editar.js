@@ -6,11 +6,38 @@ var editarTerreno = function () {
         area: "",
         perimetro: "",
 
-        init: function () {
+        init: function (datos) {
             this.map = new google.maps.Map(document.getElementById('mapsDiv'), {
                 center: {lat: 4.1420000, lng: -73.6266400},
                 zoom: 12
             });
+
+            if (datos != undefined){
+                debugger;
+            }
+        },
+
+        obtenerRegistroTerreno : function(){
+            var datosRegistroJson = $("#contenedorValores").val();
+
+            if (datosRegistroJson == undefined ){
+                //Retorno
+            }
+            var datosRegistro = JSON.parse(datosRegistroJson);
+            this.dibujarPoligonoExistente(datosRegistro.points);            
+        },
+
+        dibujarPoligonoExistente: function(puntos){            
+            // var cosa = [
+            //     {lat: 4.1444654625344475, lng: -73.65705839809158},
+            //     {lat : 4.117413428685564,lng: -73.61173979457595},
+            //     {lat: 4.152683618920593, lng: -73.60178343471267},
+            //     {lat: 4.168246057291261, lng: -73.64675871547439}
+            // ];
+            this.poligono = new google.maps.Polygon({
+                paths: puntos
+            });
+            nuevoPoligono.setMap(editarTerreno.map);
         },
 
         dibujarPoligono: function () {

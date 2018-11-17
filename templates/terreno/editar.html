@@ -11,17 +11,19 @@
                 <p class="ml-4"><h2>Selección de polígono</h2></p></div>
 
             <div class="card-body row">
+                <input id="contenedorValores" type="hidden" value=""/>
+
                 <div id="mapsDiv" class="col-md-7 mt-2"
                      style="height:500px; box-shadow: 0 0 6px 0px black; border-radius: 10px;"></div>
 
                 <!--Detalle del poligono seleccionado-->
                 <div id="infoMapsDiv" class="col-md-5 mt-2" style="height:500px;">
                     <button id="dibujarPoligonoBtn" type="button" class="btn btn-info col-md-12"
-                            style="background-color: #117a8b;" onclick="editarTerreno.dibujarPoligono()">
+                            style="background-color: #117a8b;" onclick="editarTerreno.dibujarPoligono()" style="display:none">
                         <i class="fa fa-pencil mr-2" style="font-size:20px"></i>Dibujar polígono
                     </button>
                     <button id="borrarPoligonoBtn" type="button" class="btn btn-warning col-md-12"
-                            onclick="editarTerreno.borrarPoligono()" style="display:none">
+                            onclick="editarTerreno.borrarPoligono()" >
                         <i class="fa fa-eraser mr-2" style="font-size:20px"></i><b>Borrar polígono</b>
                     </button>
                     <form method="post">
@@ -76,4 +78,11 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD9r4hThCDftrhrN9z0CYSf_w0-ysTt_8&libraries=drawing&callback=editarTerreno.init"
             async defer></script>
     <script src="{% static 'terreno/js/editar.js' %}"></script>
+
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            editarTerreno.init();        
+        })
+    </script>
+    
 {% endblock %}
