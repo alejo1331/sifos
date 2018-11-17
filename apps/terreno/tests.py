@@ -12,7 +12,7 @@ class PoligonoTests(TestCase):
 
     def setUp(self):
         print("Prueba Unitaria Poligono")
-        if (Poligono.objects.create(nombre='Villavicencio',coordenadas_puntos = "24.000", tipo_patron = TipoPatron.object.get(pk=1).pk, municipio =  Municipio.object.get(pk=1).pk, usuario =  User.object.get(pk=1).pk)):
+        if (Poligono.objects.create(nombre='Villavicencio',coordenadas_puntos = "24.000", tipo_patron = 1, municipio = 1, usuario = 1):
             print("Exitoso")
         else:
             print("No Exitoso")
