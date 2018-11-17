@@ -3,13 +3,16 @@ from django.test import TestCase
 from .models import Poligono
 from .models import PuntoSiembra
 from .models import Siembra
+from apps.general.models import Municipio, TipoPatron, Especie, Robot
+from apps.financiacion.models import Donacion
+from django.contrib.auth.models import User
 
 # Create your tests here.
 class PoligonoTests(TestCase):
 
     def setUp(self):
         print("Prueba Unitaria Poligono")
-        if (Poligono.objects.create(nombre='Villavicencio',coordenadas_puntos = "24.000", tipo_patron = 1, municipio = 1, usuario = 1)):
+        if (Poligono.objects.create(nombre='Villavicencio',coordenadas_puntos = "24.000", tipo_patron = TipoPatron.object.get(pk=1), municipio =  Municipio.object.get(pk=1), usuario =  User.object.get(pk=1))):
             print("Exitoso")
         else:
             print("No Exitoso")
