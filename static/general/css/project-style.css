@@ -45,6 +45,12 @@
     background-color: #fbf8d4a6;
 }
 
+.list-terreno{
+    background-color: #fbf8d4a6;
+    height: 40px;
+    font-weight: bold;
+}
+
 
 /******************* Style base html ***********************/
 .central-height-back{
