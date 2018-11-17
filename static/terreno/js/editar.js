@@ -115,7 +115,7 @@ var editarTerreno = function () {
                 return;
             }
             $.ajax({
-                url: '/terreno/registrar_poligono',
+                url: '/terreno/updpoligono',
                 data: {
                     'points': JSON.stringify(coord),
                     'name': nombre,

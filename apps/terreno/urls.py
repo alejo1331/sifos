@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
-from apps.terreno.views import index, registro, registro_poligono, eliminar_terreno, edicion
+from apps.terreno.views import index, registro, registro_poligono, eliminar_terreno, edicion, updpoligono
 
 urlpatterns = [
     path('seguimiento', index, name='terreno_seguimiento'),
@@ -24,4 +24,5 @@ urlpatterns = [
     path('edicion/<int:terreno_id>/', edicion, name='terreno_edicion'),
     path('registrar_poligono', registro_poligono, name='terreno_registrar_poligono'),
     path('eliminar_terreno', eliminar_terreno, name='eliminar_terreno'),
+    path('updpoligono', updpoligono, name='updpoligono'),
 ]
