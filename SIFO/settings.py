@@ -76,18 +76,18 @@ WSGI_APPLICATION = 'SIFO.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-#if 'RDS_HOSTNAME' in os.environ:
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#            'NAME': 'sifos',
-#            'USER': 'sifos',
-#            'PASSWORD': 'A12345678',
-#            'HOST': 'sifos.cbdlu9kyo2hp.us-east-2.rds.amazonaws.com',
-#            'PORT': '5432'
-#        }
-#    }
-if 'TRAVIS' in os.environ:
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('RDS_DB_NAME'),
+            'USER': os.getenv('RDS_USERNAME'),
+            'PASSWORD': os.getenv('RDS_PASSWORD'),
+            'HOST': os.getenv('RDS_HOSTNAME'),
+            'PORT': os.getenv('RDS_PORT')
+        }
+    }
+elif 'TRAVIS' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE':   'django.db.backends.postgresql_psycopg2',

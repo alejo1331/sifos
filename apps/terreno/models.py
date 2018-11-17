@@ -3,6 +3,7 @@ from apps.general.models import Municipio, TipoPatron, Especie, Robot
 from apps.financiacion.models import Donacion
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.db.models import Model, CASCADE
 
 
 # Create your models here.
@@ -12,9 +13,9 @@ class Poligono(models.Model):
     coordenadas_puntos = models.CharField(max_length=200, blank=True, null=True)
     area = models.FloatField(max_length=100, blank=True, null=True)
     perimetro = models.FloatField(max_length=100, blank=True, null=True)
-    tipo_patron = models.ForeignKey(TipoPatron, blank=False, null=False)
-    municipio = models.ForeignKey(Municipio, blank=False, null=False)
-    usuario = models.ForeignKey(User, blank=False, null=False)
+    tipo_patron = models.ForeignKey(TipoPatron, blank=False, null=False, on_delete=CASCADE)
+    municipio = models.ForeignKey(Municipio, blank=False, null=False, on_delete=CASCADE)
+    usuario = models.ForeignKey(User, blank=False, null=False, on_delete=CASCADE)
 
 
     class Meta:
@@ -28,8 +29,8 @@ class PuntoSiembra(models.Model):
     nombre = models.CharField(max_length=200, blank=True, null=True)
     latitud = models.FloatField(max_length=200, blank=True, null=True)
     longitud = models.FloatField(max_length=200, blank=True, null=True)
-    poligono = models.ForeignKey(Poligono, blank=False, null=False)
-    especie = models.ForeignKey(Especie, blank=False, null=False)
+    poligono = models.ForeignKey(Poligono, blank=False, null=False, on_delete=CASCADE)
+    especie = models.ForeignKey(Especie, blank=False, null=False, on_delete=CASCADE)
 
     class Meta:
         db_table = 'terreno_punto_siembra'
@@ -45,8 +46,8 @@ class Siembra(models.Model):
     ph = models.CharField(max_length=5, blank=True, null=True)
     url_video = models.CharField(max_length=200, blank=True, null=True)
     punto_siembra = models.OneToOneField( PuntoSiembra, on_delete=models.CASCADE, primary_key=True )
-    robot = models.ForeignKey(Robot, blank=True, null=True)
-    donacion = models.ForeignKey(Donacion, blank=False, null=False)
+    robot = models.ForeignKey(Robot, blank=True, null=True, on_delete=CASCADE)
+    donacion = models.ForeignKey(Donacion, blank=False, null=False, on_delete=CASCADE)
 
     class Meta:
         db_table = 'terreno_siembra'

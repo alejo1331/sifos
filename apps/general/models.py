@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Model, CASCADE
 
 ESTADOS = {
     ('Activo', 'Activo'),
@@ -43,8 +44,8 @@ class Especie(models.Model):
 
 # Create your models here.
 class EspecieMunicipio(models.Model):
-    especie = models.ForeignKey(Especie, blank=False, null=False)
-    municipio = models.ForeignKey(Municipio, blank=False, null=False)
+    especie = models.ForeignKey(Especie, blank=False, null=False, on_delete=CASCADE)
+    municipio = models.ForeignKey(Municipio, blank=False, null=False, on_delete=CASCADE)
 
     class Meta:
         db_table = 'general_especie_municipio'
