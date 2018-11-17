@@ -25,7 +25,9 @@ var editarTerreno = function () {
             this.dibujarPoligonoExistente(datosRegistro);            
         },
 
-        obtenerRegistroTerreno : function(nombre, perimetro, area, puntos){
+        obtenerRegistroTerreno : function(nombre, perimetro, area){
+            this.area = area;
+            this.perimetro = perimetro;
             $("#dibujarPoligonoBtn").hide();
         },
 

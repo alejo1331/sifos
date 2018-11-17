@@ -61,7 +61,7 @@
                         </div>
 
                         <hr/>
-                        <button id="registrarPoligonoBtn" type="button" class="btn btn-success col-md-12"
+                        <button id="registrarPoligonoBtn" type="button" class="btn btn-danger col-md-12"
                                 onclick="editarTerreno.obtenerCiudadPorCentro()">
                             <i class="fa fa-check-square mr-1" style="font-size:15px"></i>Actualizar
                         </button>
@@ -81,7 +81,7 @@
 
     <script type="text/javascript"> 
         $(document).ready(function(){
-            editarTerreno.obtenerRegistroTerreno('{{nombre}}', '{{area}}', '{{perimetro}}', '{{puntos}}');
+            editarTerreno.obtenerRegistroTerreno('{{nombre}}', '{{area}}', '{{perimetro}}');
         })
     </script>
     
