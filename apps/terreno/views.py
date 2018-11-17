@@ -57,8 +57,14 @@ def registro(request):
 
 def edicion(request, terreno_id):
     list_tipo = TipoPatron.objects.all()
+    det_terreno = Poligono.objects.get(id=terreno_id)
     context = {
-        "list_tipo": list_tipo
+        "list_tipo": list_tipo,
+        "nombre": det_terreno.nombre,
+        "area": det_terreno.area,
+        "perimetro": det_terreno.perimetro,
+        "puntos": det_terreno.coordenadas_puntos
+
     }
     return render(request, "terreno/editar.html", context)
 
