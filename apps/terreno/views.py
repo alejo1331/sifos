@@ -72,5 +72,12 @@ def registro_poligono(request):
             'error': "no",
             'message': "Error."
         }
-
     return JsonResponse(data)
+
+
+def eliminar_terreno(request):
+    pk = request.POST.get('id')
+    identificador = Poligono.objects.get(id=pk)
+    identificador.delete()
+    response = {}
+    return JsonResponse(response)

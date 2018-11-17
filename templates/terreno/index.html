@@ -55,7 +55,8 @@
                                 <a class="btn btn-info m-1" href="#" id="btn_editar_terreno"><i class="fa fa-pencil"
                                                                                                 style="font-size:10px"></i></a>
                                 <!-- Botón eliminar terreno -->
-                                <a class="btn btn-info m-1" href="#" id="btn_eliminar_terreno"><i
+                                <a class="btn btn-info m-1" onclick="eliminarTerreno('{{ abc.id }}','{{ abc.avance }}')"
+                                   id="btn_eliminar_terreno"><i
                                         class='fas fa-trash-alt'
                                         style='font-size:10px'></i></a>
                             </td>
@@ -69,4 +70,31 @@
             </div>
         </div>
     </div>
+    <script>
+        function eliminarTerreno(id, avance) {
+            var request = $.ajax({
+                type: "POST",
+                url: "{% url 'eliminar_terreno' %}",
+                data: {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "id": id
+                },
+            });
+            request.done(function (response) {
+                swal({
+                    type: 'success',
+                    title: 'Terreno eliminado',
+                    text: '.',
+                    footer: '',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ok'
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/terreno/seguimiento';
+                    }
+                })
+            });
+        }
+    </script>
 {% endblock %}
