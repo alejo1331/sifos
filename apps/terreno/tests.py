@@ -1,5 +1,5 @@
 from django.test import TestCase
-'''
+
 from .models import Poligono
 from .models import PuntoSiembra
 from .models import Siembra
@@ -12,7 +12,7 @@ class PoligonoTests(TestCase):
 
     def setUp(self):
         print("Prueba Unitaria Poligono")
-        if (Poligono.objects.create(nombre='Villavicencio',coordenadas_puntos = "24.000", tipo_patron = TipoPatron.object.get(pk=1), municipio =  Municipio.object.get(pk=1), usuario =  User.object.get(pk=1))):
+        if (Poligono.objects.create(nombre='Villavicencio',coordenadas_puntos = "24.000", tipo_patron = TipoPatron.object.get(pk=1).pk, municipio =  Municipio.object.get(pk=1).pk, usuario =  User.object.get(pk=1).pk)):
             print("Exitoso")
         else:
             print("No Exitoso")
@@ -21,7 +21,7 @@ class PoligonoTests(TestCase):
         poligono = Poligono.objects.get(id=1)
         print(poligono.nombre)
         print(poligono.coordenadas_puntos)
-     
+ '''    
 # Create your tests here.
 class PuntoSiembraTests(TestCase):
 
