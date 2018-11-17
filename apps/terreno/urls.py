@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
-from apps.terreno.views import index, registro
+from apps.terreno.views import index, registro, registro_poligono
 
 urlpatterns = [
     path('seguimiento', index, name='terreno_seguimiento'),
     path('registro', registro, name='terreno_registro'),
+    path('registrar_poligono', registro_poligono, name='terreno_registrar_poligono'),
 ]
