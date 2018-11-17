@@ -15,7 +15,7 @@ var registrarTerreno = function () {
 
         dibujarPoligono: function () {
             if (this.map == undefined || this.map == "") {
-                alert("No fue posible obtener información del mapa");
+                this.generarMensajeBasico("error", "Selección de polígono", "No fue posible obtener la información del mapa");                
                 return;
             }
             $("#borrarPoligonoBtn").show();
@@ -89,12 +89,12 @@ var registrarTerreno = function () {
                 coord.push([puntos[i].lat(), puntos[i].lng()])
             }
             if (this.poligono == null) {
-                alert("Debe seleccionar un polígono que represente el terreno");
+                this.generarMensajeBasico("warning", "Selección de polígono", "Debe seleccionar un polígono");                                                
                 return;
             }
             var nombre = $("#nombreTerrenoTxt").val();
             if (nombre == "") {
-                alert("Agregue el nombre del terreno");
+                this.generarMensajeBasico("warning", "Selección de polígono", "Agregue el nombre del terreno");                
                 return;
             }
             $.ajax({
@@ -155,12 +155,24 @@ var registrarTerreno = function () {
                                 return;
                             }
                         }
-                        window.alert('No fue posible obtener el municipio seleccionado');
+                        this.generarMensajeBasico("error", "Registro de terreno", "No fue posible obtener información del municipio seleccionado");
+                        
                     } else {
-                        window.alert('No fue posible obtener el municipio seleccionado');
+                        this.generarMensajeBasico("error", "Registro de terreno", "No fue posible obtener el municipio seleccionado");
                     }
-                });
+                });                
             }
+            return;
+        },
+
+        //psss, genera un mensaje normalito
+        generarMensajeBasico: function(tipo, titulo, mensaje){
+            swal({
+                type : tipo,
+                title : titulo,
+                text : mensaje                
+            });
+            return;
         }
     }
 }();
