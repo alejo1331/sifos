@@ -13,5 +13,7 @@ class MunicipioTests(TestCase):
 
     def test_text_content(self):
         municipio = Municipio.objects.get(id=1)
-        print(municipio)
+        print(municipio.nombre)
+        print(municipio.longitd)
+        print(municipio.latitud)
 
