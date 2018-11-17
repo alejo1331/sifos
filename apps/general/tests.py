@@ -3,6 +3,7 @@ from django.test import TestCase
 from .models import Municipio
 from .models import Especie
 from .models import EspecieMunicipio
+from .models import Robot
 
 # Create your tests here.
 class MunicipioTests(TestCase):
