@@ -1,4 +1,4 @@
-# sifos [![Build Status](https://travis-ci.org/jmencisom/sifos.svg?branch=master)](https://travis-ci.org/jmencisom/sifos)
+# sifos [![Build Status](https://travis-ci.org/jmencisom/sifos.svg?branch=master)](https://travis-ci.org/jmencisom/sifos) [![Coverage Status](https://coveralls.io/repos/github/jmencisom/sifos/badge.svg?branch=master)](https://coveralls.io/github/jmencisom/sifos?branch=master)
 Sistema de Gestión Forestal Sostenible
 
 ## Documentation
