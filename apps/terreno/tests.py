@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+'''
 from .models import Poligono
 from .models import PuntoSiembra
 from .models import Siembra
@@ -53,3 +53,4 @@ class SiembraTests(TestCase):
         print(siembra.temperatura)
         print(siembra.humedad)
         print(siembra.altitud)
+        '''
