@@ -39,21 +39,5 @@ class EspecieTests(TestCase):
             print(especie.porcentaje_carbono)
         else:
             print("No Existe")
-        
-class EspMunTests(TestCase):
 
-    def setUp(self):
-        print("Prueba Unitaria Municipio")
-        if (EspecieMunicipio.objects.create(especie = 1,municipio = 1)):
-            print("Exitoso")
-        else:
-            print("No Exitoso")
-
-    def test_text_content(self):
-        espmun = EspecieMunicipio.objects.get(id=1)
-        if(espmun):
-            print(espmun.especie)
-            print(espmun.municipio)
-        else:
-            print("No Existe")
 
