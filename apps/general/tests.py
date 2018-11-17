@@ -65,7 +65,7 @@ class TipoPatronTests(TestCase):
 
     def setUp(self):
         print("Prueba Unitaria TipoPatron")
-        if (TipoPatron.objects.create(nombre='t1',figura  = "Triangulo", distancia_interna =200")):
+        if (TipoPatron.objects.create(nombre='t1',figura  = "Triangulo", distancia_interna =200)):
             print("Exitoso")
         else:
             print("No Exitoso")
