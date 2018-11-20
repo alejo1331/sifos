@@ -17,12 +17,12 @@ class Poligono(models.Model):
     municipio = models.ForeignKey(Municipio, blank=False, null=False, on_delete=CASCADE)
     usuario = models.ForeignKey(User, blank=False, null=False, on_delete=CASCADE)
 
-
     class Meta:
         db_table = 'terreno_poligono'
 
     def __str__(self):
         return "{0}".format(self.nombre)
+
 
 # Create your models here.
 class PuntoSiembra(models.Model):
@@ -38,6 +38,7 @@ class PuntoSiembra(models.Model):
     def __str__(self):
         return "{0}".format(self.nombre)
 
+
 # Create your models here.
 class Siembra(models.Model):
     temperatura = models.CharField(max_length=5, blank=True, null=True)
@@ -45,7 +46,7 @@ class Siembra(models.Model):
     altitud = models.FloatField(max_length=200, blank=True, null=True)
     ph = models.CharField(max_length=5, blank=True, null=True)
     url_video = models.CharField(max_length=200, blank=True, null=True)
-    punto_siembra = models.OneToOneField( PuntoSiembra, on_delete=models.CASCADE, primary_key=True )
+    punto_siembra = models.OneToOneField(PuntoSiembra, on_delete=models.CASCADE, primary_key=True)
     robot = models.ForeignKey(Robot, blank=True, null=True, on_delete=CASCADE)
     donacion = models.ForeignKey(Donacion, blank=False, null=False, on_delete=CASCADE)
 

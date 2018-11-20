@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.urls import path
-from django.contrib import admin
-from apps.terreno.views import index, registro, registro_poligono, eliminar_terreno, edicion, updpoligono
+from apps.terreno.views import index, registro, registro_poligono, eliminar_terreno, edicion, updpoligono, sowing_points_pending, update_sowing
 
 urlpatterns = [
     path('seguimiento', index, name='terreno_seguimiento'),
@@ -25,4 +24,6 @@ urlpatterns = [
     path('registrar_poligono', registro_poligono, name='terreno_registrar_poligono'),
     path('eliminar_terreno', eliminar_terreno, name='eliminar_terreno'),
     path('updpoligono', updpoligono, name='updpoligono'),
+    url(r'^sowing_pending', sowing_points_pending),
+    url(r'^update_sowing', update_sowing),
 ]

@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.urls import path
 from django.contrib import admin
-from apps.usuario.views import perfil, validate_email, send_email
+from apps.usuario.views import perfil, validate_email, recover_password
 
 urlpatterns = [
     path('perfil/', perfil, name="usuario_perfil"),
     path('validate_email/', validate_email, name='validate_email'),
-    path('send_email/', send_email, name='send_email'),
+    path('send_email/', recover_password, name='send_email'),
 ]

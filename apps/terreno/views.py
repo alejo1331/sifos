@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 # Create your views here.
-from apps.terreno.models import Poligono
+from apps.terreno.models import Poligono, Siembra, PuntoSiembra
 from apps.general.models import Municipio, TipoPatron
+from apps.usuario.views import get_user_donor_by_donation, send_email
 
 import json
+import os
+
 
 def index(request):
     obj = Poligono.objects.filter(usuario=request.user)
@@ -62,7 +68,7 @@ def edicion(request, terreno_id):
     det_terreno = Poligono.objects.get(id=terreno_id)
 
     jsonData = json.loads(det_terreno.coordenadas_puntos)
-    puntos = json.dumps(jsonData).replace("\'","\"")
+    puntos = json.dumps(jsonData).replace("\'", "\"")
 
     context = {
         "list_tipo": list_tipo,
@@ -73,7 +79,6 @@ def edicion(request, terreno_id):
 
     }
     return render(request, "terreno/editar.html", context)
-
 
 
 def registro_poligono(request):
@@ -103,6 +108,7 @@ def eliminar_terreno(request):
     response = {}
     return JsonResponse(response)
 
+
 def updpoligono(request):
     data = {
         'error': "si",
@@ -110,14 +116,14 @@ def updpoligono(request):
     }
     try:
         m = Municipio.objects.get(nombre=request.POST.get('municipio', None))
-        obj= Poligono.objects.get(d=request.POST.get('id', None))
-        obj.nombre=request.POST.get('name', None)
-        obj.coordenadas_puntos=request.POST.get('points', None)
-        obj.area=request.POST.get('area', None)
-        obj.perimetro=request.POST.get('perimeter', None)
-        obj.tipo_patron_id=request.POST.get('siembra', None)
-        obj.usuario=request.user
-        obj.municipio_id=m.id
+        obj = Poligono.objects.get(d=request.POST.get('id', None))
+        obj.nombre = request.POST.get('name', None)
+        obj.coordenadas_puntos = request.POST.get('points', None)
+        obj.area = request.POST.get('area', None)
+        obj.perimetro = request.POST.get('perimeter', None)
+        obj.tipo_patron_id = request.POST.get('siembra', None)
+        obj.usuario = request.user
+        obj.municipio_id = m.id
         obj.save()
     except Exception as e:
         data1 = {
@@ -126,3 +132,51 @@ def updpoligono(request):
         }
 
     return JsonResponse(data)
+
+
+@csrf_exempt
+def sowing_points_pending(request):
+    post_data = json.loads(request.body)
+    robot_id = post_data['robot_id']
+
+    sowing_points = PuntoSiembra.objects.all().filter(
+        siembra__temperatura__isnull=True,
+        siembra__humedad__isnull=True,
+        siembra__altitud__isnull=True,
+        siembra__ph__isnull=True,
+        siembra__url_video__isnull=True,
+        siembra__robot_id__exact=robot_id
+    ).values()
+
+    return JsonResponse(list(sowing_points), safe=False)
+
+
+@csrf_exempt
+def update_sowing(request):
+    response = {'success': True}
+    post_data = json.loads(request.body)
+    sowing_point_id = post_data['sowing_point_id']
+    sowing = Siembra.objects.get(punto_siembra=sowing_point_id)
+    sowing.temperatura = post_data['temperature']
+    sowing.humedad = post_data['humidity']
+    sowing.altitud = post_data['altitude']
+    sowing.ph = post_data['ph']
+    sowing.url_video = post_data['url_video']
+
+    try:
+        sowing.save()
+        user_donator = get_user_donor_by_donation(sowing.donacion.id)
+        send_email_user(user_donator, sowing)
+    except ValueError:
+        response = {'success': False}
+
+    return JsonResponse(response, safe=False)
+
+
+def send_email_user(user_donator, sowing):
+    subject = 'Siembra de plantula'
+    message = 'Querido ' + user_donator.nombre + 'gracias a tu donación hemos sembrado vida <a href="' + sowing.url_video + '">video siembra</a> '
+    from_email = os.getenv('FROM_EMAIL')
+    email_to = user_donator.correo_electronico
+
+    return send_email(from_email, email_to, subject, message)
