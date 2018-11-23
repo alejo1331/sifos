@@ -4,6 +4,7 @@ from django.urls import reverse
 def perfil(request):
     return render(request, 'usuario/perfil.html')
 
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.shortcuts import render
@@ -18,13 +19,15 @@ from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
+from apps.usuario.models import Donador
 import random
 import string
+
 
 class LoginView(FormView):
     form_class = AuthenticationForm
     template_name = "login.html"
-    success_url =  reverse_lazy("terreno_seguimiento")
+    success_url = reverse_lazy("terreno_seguimiento")
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -44,6 +47,7 @@ class LogoutView(RedirectView):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
+
 class LoginRequiredMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
@@ -52,10 +56,12 @@ class LoginRequiredMixin(object):
         else:
             return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
+
 ## Método que obtiene el detalle de usuario logueado
 def perfil(request):
     usuario = User.objects.filter(username=request.user).first()
     return render(request, "usuario/perfil.html", {"usuario": usuario})
+
 
 def validate_email(request):
     email = request.GET.get('email', None)
@@ -66,43 +72,55 @@ def validate_email(request):
 
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
-        return ''.join(random.choice(chars) for _ in range(size))
+    return ''.join(random.choice(chars) for _ in range(size))
 
-def send_email(request):
-    #Asigna una nueva contraseña para ser enviada al correo
+
+def recover_password(request):
     email_to = request.GET.get('email', None)
-    print(email_to)
-    usuario = User.objects.get(email=email_to)
-    new_pswrd = id_generator()
-    usuario.set_password(new_pswrd)
-    #update_session_auth_hash(request, usuario)
-    usuario.save()
-
-    #Asigna los valores del correo electrónico
+    user = User.objects.get(email=email_to)
+    new_password = id_generator()
+    user.set_password(new_password)
+    user.save()
 
     subject = 'Recuperación de contraseña'
-    message = 'Su nueva contraseña es: '+new_pswrd
+    message = 'Su nueva contraseña es: ' + new_password
     from_email = 'obaquerog@gmail.com'
 
-    #Envio de correo electrónico
     if subject and message and from_email:
-        try:
-            send_mail(subject, message, from_email, [email_to])
+        response = send_email(subject, message, from_email, email_to)
+        if response:
             data = {
                 'error': "no",
-                'message': "Se envió una nueva contraseña al correo electrónico "+ email_to
+                'message': "Se envió una nueva contraseña al correo electrónico " + email_to
             }
-            return JsonResponse(data)
-        except BadHeaderError:
+        else:
             data = {
                 'error': "si",
                 'message': "Se produjo un error durante el envío del correo electrónico."
             }
-            return JsonResponse(data)
     else:
         data = {
             'error': "si",
             'message': "Por favor verifique el correo electrónico ingresado e intentelo nuevamente."
         }
-        return JsonResponse(data)
 
+    return JsonResponse(data)
+
+
+def send_email(from_email, email_to, subject, message):
+    try:
+        send_mail(subject, message, from_email, [email_to])
+        response = True
+    except BadHeaderError:
+        response = False
+
+    return response
+
+
+def get_user_donor_by_donation(donation_id):
+    user_donator = Donador.objects.raw('''
+    select usuario_donador.* from usuario_donador join financiacion_donacion on donador_id = usuario_donador.id
+    where financiacion_donacion.id = %s
+    ''', [donation_id])[0]
+
+    return user_donator

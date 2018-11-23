@@ -68,7 +68,7 @@ class TipoPatron(models.Model):
 
     def save(self, *args, **kwargs):
         self.nombre = self.nombre.upper()
-        super(Municipio, self).save(*args, **kwargs)
+        super(TipoPatron, self).save(*args, **kwargs)
 
 
 class Robot(models.Model):

@@ -17,8 +17,8 @@
                     <tr class="text-center color-head-table">
                         <th>Fecha</th>
                         <th>Resumen</th>
-                        <th>Área (Km<sup>2</sup>)</th>
-                        <th>Perímetro (Km)</th>
+                        <th>Área (m<sup>2</sup>)</th>
+                        <th>Perímetro (m)</th>
                         <th>Avance (%)</th>
                         <th>Número de especies</th>
                         <th>Tipo de siembra</th>
@@ -52,13 +52,16 @@
                             <!-- Columna acciones -->
                             <td class="d-lg-inline-block">
                                 <!-- Botón editar terreno -->
-                                <a class="btn btn-info m-1" href="/terreno/edicion/{{ abc.id }}/" id="btn_editar_terreno"><i class="fa fa-pencil"
+                                {% if abc.cant_donadores == null or abc.cant_donadores <= 0 %}
+                                    <a class="btn btn-info m-1" href="/terreno/edicion/{{ abc.id }}/" id="btn_editar_terreno"><i class="fa fa-pencil"
                                                                                                 style="font-size:10px"></i></a>
-                                <!-- Botón eliminar terreno -->
-                                <a class="btn btn-info m-1" onclick="eliminarTerreno('{{ abc.id }}','{{ abc.avance }}')"
-                                   id="btn_eliminar_terreno"><i
-                                        class='fas fa-trash-alt'
-                                        style='font-size:10px'></i></a>
+
+                                    <!-- Botón eliminar terreno -->
+                                    <a class="btn btn-info m-1" onclick="eliminarTerreno('{{ abc.id }}','{{ abc.avance }}')"
+                                    id="btn_eliminar_terreno"><i
+                                            class='fas fa-trash-alt'
+                                            style='font-size:10px'></i></a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
